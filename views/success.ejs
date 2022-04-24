@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Paypal</title>
+
+		<style>
+			@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+			body {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+				font-family: "Poppins", sans-serif;
+				background-color: #110964;
+			}
+			.card-item-image {
+				width: 300px;
+				height: 300px;
+				object-fit: cover;
+				display: block;
+				margin: auto;
+			}
+			.card-item-image img {
+				width: 100%;
+			}
+			.card-success {
+				height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+				max-width: 760px;
+				margin: 0 auto;
+			}
+			.card-success::before {
+				content: "";
+				display: block;
+				position: fixed;
+				width: 300%;
+				height: 100%;
+				top: 50%;
+				left: 50%;
+				border-radius: 100%;
+				transform: translateX(-50%) skewY(-8deg);
+				background-image: linear-gradient(
+					to bottom,
+					#17c4ae,
+					#00b7c3,
+					#00a8d2,
+					#0096d7,
+					#3e81cf
+				);
+				z-index: -1;
+				animation: wave 7s ease-in-out infinite alternate;
+			}
+			@keyframes wave {
+				from {
+					transform: translate(-40%, -5%) skewY(-3deg);
+				}
+				to {
+					transform: translate(-50%, -8%) skewY(-9deg);
+				}
+			}
+			.card {
+				background-color: #fff;
+				box-sizing: border-box;
+				width: 360px;
+				height: 500px;
+				box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+					rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+				border-radius: 30px;
+				overflow: hidden;
+				padding: 0 28px;
+				position: relative;
+				margin-bottom: 20px;
+			}
+			.card-item-title h2 {
+				color: #756cce;
+				display: block;
+				text-align: center;
+				font-size: 30px;
+				margin-top: 0;
+				margin-bottom: 10px;
+				font-weight: 700;
+			}
+			.card-item-title span {
+				color: #707473;
+				display: block;
+				text-align: center;
+				font-size: 16px;
+			}
+			.card-item-button {
+				margin-top: 30px;
+				display: block;
+				text-align: center;
+			}
+			.card-item-button button {
+				background-color: #756cce;
+				padding: 15px 30px;
+				outline: none;
+				border: none;
+				border-radius: 8px;
+				color: white;
+				font-weight: 700;
+				font-size: 18px;
+				cursor: pointer;
+				z-index: 1;
+				font-size: inherit;
+				font-family: inherit;
+				padding: 0.5em 1em;
+			}
+			button:hover {
+				cursor: pointer;
+				animation: jelly 0.5s;
+			}
+			.card-item-button a {
+				color: white;
+				text-decoration: none;
+			}
+			@keyframes jelly {
+				0%,
+				100% {
+					transform: scale(1, 1);
+				}
+				25% {
+					transform: scale(0.9, 1.1);
+				}
+				50% {
+					transform: scale(1.1, 0.9);
+				}
+				75% {
+					transform: scale(0.95, 1.05);
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="card-success">
+			<div class="card">
+				<div class="card-item-image">
+					<img
+						src="https://img.pikbest.com/png-images/qiantu/astronaut-space-moon-cartoon-element_2727676.png!c1024wm0/compress/true/progressive/true/format/webp/fw/1024"
+						alt=""
+					/>
+				</div>
+				<div class="card-item-title">
+					<h2>Payment Success</h2>
+					<span>Thank you for visiting our shop</span>
+				</div>
+				<div class="card-item-button">
+					<button class="handle-success">
+						<a href="https://hqh-shop.vercel.app/">Back Home</a>
+					</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
