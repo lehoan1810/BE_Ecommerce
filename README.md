@@ -1,6 +1,6 @@
 # Graduate Dissertation
 
-GVHD: Ths. Nguyễn Trần Thi Văn
+GVHD: Ths. Nguyễn Trần Thi Văn.
 Website selling computer accessories.
 
 ## Member
