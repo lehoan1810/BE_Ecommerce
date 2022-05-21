@@ -18,10 +18,12 @@ module.exports = class Email {
 				//service: 'gmail',
 				host: "smtp.gmail.com",
 				port: 587,
-				secure: false, // secure:true for port 465, secure:false for port 587
+				// secure: false, // secure:true for port 465, secure:false for port 587
 				auth: {
-					user: process.env.GMAIL_USER,
-					pass: process.env.GMAIL_PASS,
+					// user: process.env.GMAIL_USER,
+					// pass: process.env.GMAIL_PASS,
+					user: "lehoan18102000@gmail.com",
+					pass: "Hoanhao18102000",
 				},
 			});
 		}
