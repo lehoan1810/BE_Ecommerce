@@ -31,8 +31,8 @@ module.exports = class Email {
 			host: process.env.EMAIL_HOST,
 			port: process.env.EMAIL_PORT,
 			auth: {
-				user: process.env.EMAIL_USERNAME,
-				pass: process.env.EMAIL_PASSWORD,
+				user: process.env.GMAIL_USER,
+				pass: process.env.GMAIL_PASS,
 			},
 		});
 	}
