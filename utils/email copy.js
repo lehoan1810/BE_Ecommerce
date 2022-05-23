@@ -15,22 +15,24 @@ module.exports = class Email {
 		if (process.env.NODE_ENV === "production") {
 			//create transporter for sendgrid
 			return nodemailer.createTransport({
-				service: "Gmail",
+				//service: 'gmail',
+				host: "smtp.gmail.com",
+				port: 587,
 				// secure: false, // secure:true for port 465, secure:false for port 587
 				auth: {
-					user: "sandaugiaduythien",
-					pass: "hadesduy13051999",
+					user: process.env.GMAIL_USER,
+					pass: process.env.GMAIL_PASS,
 				},
 			});
 		}
 
 		//in development
 		return nodemailer.createTransport({
-			service: "Gmail",
-
+			host: process.env.EMAIL_HOST,
+			port: process.env.EMAIL_PORT,
 			auth: {
-				user: "sandaugiaduythien",
-				pass: "hadesduy13051999",
+				user: process.env.GMAIL_USER,
+				pass: process.env.GMAIL_PASS,
 			},
 		});
 	}
