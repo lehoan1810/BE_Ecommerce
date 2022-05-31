@@ -31,10 +31,7 @@ const reviewSchema = new mongoose.Schema(
 			type: String,
 			require: true,
 		},
-		photo: {
-			type: String,
-			require: true,
-		},
+		photos: [],
 	},
 	{
 		toJSON: { virtuals: true },
