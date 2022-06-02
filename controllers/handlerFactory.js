@@ -76,6 +76,21 @@ exports.createOne = (Model) =>
 		});
 	});
 
+exports.createOneReview = (Model) =>
+	catchAsync(async (req, res, next) => {
+		// const newProduct = new Product({})
+		// newProduct.save()
+
+		const doc = await Model.create(req.body);
+
+		res.status(201).json({
+			status: "success",
+			data: {
+				doc: doc,
+			},
+		});
+	});
+
 exports.updateOne = (Model) =>
 	catchAsync(async (req, res, next) => {
 		const doc = await Model.findByIdAndUpdate(
