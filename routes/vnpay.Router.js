@@ -1,7 +1,3 @@
-/**
- * Created by vinhnt on 6/16/2017.
- */
-
 const User = require("../models/userModel");
 var express = require("express");
 var router = express.Router();
@@ -141,7 +137,7 @@ router.get("/vnpay_return", async function (req, res, next) {
 				name: vnp_Params?.vnp_OrderInfo?.name,
 				shippingAddress: vnp_Params?.vnp_OrderInfo?.shippingAddress,
 				totalPrice: parseInt(vnp_Params?.vnp_OrderInfo?.totalPrice),
-				status: 1,
+				status: 0,
 			};
 			const dataUpdate = [...infoUser?.purchasingHistory, { ...dataCreate }];
 			console.log({ dataUpdate: dataUpdate });
