@@ -73,8 +73,7 @@ exports.login = catchAsync(async (req, res, next) => {
 	if (!user || !(await user.correctPassword(password, user.password))) {
 		return next(new AppError("Incorrect email or password", 401));
 	}
-	if (!user.verified)
-		return next(new AppError("Incorrect email or password", 400));
+	if (!user.verified) return next(new AppError("Account not verified!", 400));
 	//3) if exists, send jwt token back to the client
 	createSendToken(user, 200, res);
 });
