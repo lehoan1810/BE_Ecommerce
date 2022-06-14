@@ -14,6 +14,9 @@ const categoryShema = new mongoose.Schema(
 		parentId: {
 			type: String,
 		},
+		nameCategory: {
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );

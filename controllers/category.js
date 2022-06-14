@@ -44,6 +44,8 @@ exports.getCategories = (req, res) => {
 		if (error) return res.status(400).json({ error });
 		if (categories) {
 			const categoryList = createCategories(categories);
+			// console.log("show categoryList: ", categories);
+			// const test=await categoryList.find().populate
 			return res.status(201).json({ categoryList });
 		}
 	});

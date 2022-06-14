@@ -80,6 +80,12 @@ exports.createOneReview = (Model) =>
 	catchAsync(async (req, res, next) => {
 		// const newProduct = new Product({})
 		// newProduct.save()
+		const dataImg = req.body.photoReviews;
+		dataImg.map((item) => {
+			console.log(item);
+		});
+		// console.log("show photoReviews: ", req.body.photoReviews);
+		console.log("show review: ", req.body);
 
 		const doc = await Model.create(req.body);
 
