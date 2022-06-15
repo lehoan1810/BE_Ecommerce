@@ -26,6 +26,7 @@ exports.addCategory = (req, res) => {
 	const categoryObj = {
 		name: req.body.name,
 		slug: slugify(req.body.name),
+		imageCategory: req.body.imageCategory,
 	};
 	if (req.body.parentId) {
 		categoryObj.parentId = req.body.parentId;

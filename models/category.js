@@ -17,6 +17,10 @@ const categoryShema = new mongoose.Schema(
 		nameCategory: {
 			type: String,
 		},
+		imageCategory: {
+			type: String,
+			default: "",
+		},
 	},
 	{ timestamps: true }
 );
