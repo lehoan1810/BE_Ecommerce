@@ -265,13 +265,13 @@ exports.paginationSort = (req, res, next) => {
 	let sort = parseInt(req.query.sort);
 	let page = parseInt(req.query.page) || 1;
 	const { id } = req.params;
-	console.log(perPage);
 	category.findOne({ _id: id }).exec((error, category) => {
 		if (error) {
 			return res.status(400).json({ error });
 		}
 		if (category) {
 			Product.find({ category: category._id })
+				.populate("category")
 				.sort({ price: sort })
 				.skip(perPage * page - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
 				.limit(perPage)

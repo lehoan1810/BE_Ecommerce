@@ -17,6 +17,7 @@ const createCategories = (categories, parentId = null) => {
 			name: cate.name,
 			slug: cate.slug,
 			imageCategory: cate.imageCategory,
+
 			children: createCategories(categories, cate._id),
 		});
 	}
