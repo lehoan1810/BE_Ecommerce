@@ -120,6 +120,7 @@ exports.getAllProducts = (req, res, next) => {
 					allProducts,
 				});
 			});
+			console.log("show allProducts: ", category);
 		}
 	});
 };

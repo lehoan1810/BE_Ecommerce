@@ -14,9 +14,7 @@ const categoryShema = new mongoose.Schema(
 		parentId: {
 			type: String,
 		},
-		nameCategory: {
-			type: String,
-		},
+
 		imageCategory: {
 			type: String,
 			default: "",

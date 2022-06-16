@@ -44,6 +44,7 @@ const productSPShema = new mongoose.Schema(
 			ref: "category",
 			required: true,
 		},
+
 		createdBy: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",

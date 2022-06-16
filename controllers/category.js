@@ -16,6 +16,7 @@ const createCategories = (categories, parentId = null) => {
 			_id: cate._id,
 			name: cate.name,
 			slug: cate.slug,
+			imageCategory: cate.imageCategory,
 			children: createCategories(categories, cate._id),
 		});
 	}
@@ -45,7 +46,7 @@ exports.getCategories = (req, res) => {
 		if (error) return res.status(400).json({ error });
 		if (categories) {
 			const categoryList = createCategories(categories);
-			// console.log("show categoryList: ", categories);
+			console.log("show categoryList: ", categoryList);
 			// const test=await categoryList.find().populate
 			return res.status(201).json({ categoryList });
 		}
