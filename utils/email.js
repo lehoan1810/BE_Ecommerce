@@ -10,6 +10,24 @@ module.exports = class Email {
 		this.url = url;
 		this.from = `Shop admin <${process.env.EMAIL_FROM}>`;
 	}
+	myOAuth2Client() {
+		new OAuth2Client(
+			"117061799709-mkneukuac41isbdg0r56b1c2l391pkct.apps.googleusercontent.com",
+			"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"
+		).setCredentials({
+			refresh_token:
+				"1//04UOQ6iEdnI8mCgYIARAAGAQSNwF-L9IrHA46wmdGaRSV29lE768tL3XMju122q8OfFJQZKic2SpoMqqLfZLmb9yFkaLnzbr5wC8",
+		});
+	}
+	// myOAuth2Client
+
+	myAccessTokenObject() {
+		myOAuth2Client.getAccessToken();
+	}
+	// Access Token sẽ nằm trong property 'token' trong Object mà chúng ta vừa get được ở trên
+	myAccessToken() {
+		myAccessTokenObject?.token;
+	}
 
 	newTransport() {
 		if (process.env.NODE_ENV === "production") {
@@ -18,8 +36,14 @@ module.exports = class Email {
 				service: "Gmail",
 				// secure: false, // secure:true for port 465, secure:false for port 587
 				auth: {
-					user: "sandaugiaduythien",
-					pass: "hadesduy13051999",
+					type: "OAuth2",
+					user: "hoanhao18102000@gmail.com",
+					clientId:
+						"117061799709-mkneukuac41isbdg0r56b1c2l391pkct.apps.googleusercontent.com",
+					clientSecret: "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",
+					refresh_token:
+						"1//04UOQ6iEdnI8mCgYIARAAGAQSNwF-L9IrHA46wmdGaRSV29lE768tL3XMju122q8OfFJQZKic2SpoMqqLfZLmb9yFkaLnzbr5wC8",
+					accessToken: myAccessToken,
 				},
 			});
 		}
