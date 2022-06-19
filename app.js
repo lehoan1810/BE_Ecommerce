@@ -14,6 +14,7 @@ const statisticsRouter = require("./routes/statisticsRoutes");
 const voucherRouters = require("./routes/voucherRoutes");
 const vnPayRouter = require("./routes/vnpay.Router");
 const ejs = require("ejs");
+const mailService = require("./helper/mail.helper");
 
 //create instance for appication of express
 const app = express();
@@ -42,6 +43,10 @@ app.use("/api/v1/pay", purchasingRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/statistics", statisticsRouter);
 app.use("/api/v1/vnpay", vnPayRouter);
+
+app.get("/gmail", (req, res) => {
+	mailService("lehoan18102000@gmail.com", "test send mail", "<h1>heloooo</h1>");
+});
 
 //middleware for not found page
 app.all("*", (req, res, next) => {

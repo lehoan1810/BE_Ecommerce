@@ -7,6 +7,7 @@ const AppError = require("./../utils/appError");
 const Email = require("./../utils/email");
 const tokenS = require("../utils/token");
 const Token = require("../models/tokenModel");
+// const mailService = require("./helper/mail.helper");
 
 //create token for user signed up or logged in
 const signToken = (id, name, email, role) => {

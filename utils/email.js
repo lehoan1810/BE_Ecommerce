@@ -2,6 +2,7 @@ const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const pug = require("pug");
 const htmlToText = require("html-to-text");
+const mailService = require("../helper/mail.helper");
 
 module.exports = class Email {
 	constructor(user, url) {
@@ -10,51 +11,29 @@ module.exports = class Email {
 		this.url = url;
 		this.from = `Shop admin <${process.env.EMAIL_FROM}>`;
 	}
-	myOAuth2Client() {
-		new OAuth2Client(
-			"117061799709-mkneukuac41isbdg0r56b1c2l391pkct.apps.googleusercontent.com",
-			"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"
-		).setCredentials({
-			refresh_token:
-				"1//04UOQ6iEdnI8mCgYIARAAGAQSNwF-L9IrHA46wmdGaRSV29lE768tL3XMju122q8OfFJQZKic2SpoMqqLfZLmb9yFkaLnzbr5wC8",
-		});
-	}
-	// myOAuth2Client
-
-	myAccessTokenObject() {
-		myOAuth2Client.getAccessToken();
-	}
-	// Access Token sẽ nằm trong property 'token' trong Object mà chúng ta vừa get được ở trên
-	myAccessToken() {
-		myAccessTokenObject?.token;
-	}
 
 	newTransport() {
 		if (process.env.NODE_ENV === "production") {
 			//create transporter for sendgrid
 			return nodemailer.createTransport({
-				service: "Gmail",
+				//service: 'gmail',
+				host: "smtp.gmail.com",
+				port: 587,
 				// secure: false, // secure:true for port 465, secure:false for port 587
 				auth: {
-					type: "OAuth2",
-					user: "hoanhao18102000@gmail.com",
-					clientId:
-						"117061799709-mkneukuac41isbdg0r56b1c2l391pkct.apps.googleusercontent.com",
-					clientSecret: "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",
-					refresh_token:
-						"1//04UOQ6iEdnI8mCgYIARAAGAQSNwF-L9IrHA46wmdGaRSV29lE768tL3XMju122q8OfFJQZKic2SpoMqqLfZLmb9yFkaLnzbr5wC8",
-					accessToken: myAccessToken,
+					user: "sandaugiaduythien",
+					pass: "hadesduy13051999",
 				},
 			});
 		}
 
 		//in development
 		return nodemailer.createTransport({
-			service: "Gmail",
-
+			host: process.env.EMAIL_HOST,
+			port: process.env.EMAIL_PORT,
 			auth: {
-				user: "sandaugiaduythien",
-				pass: "hadesduy13051999",
+				user: process.env.GMAIL_USER,
+				pass: process.env.GMAIL_PASS,
 			},
 		});
 	}
@@ -87,7 +66,8 @@ module.exports = class Email {
 	}
 
 	async sendPasswordReset() {
-		await this.send(
+		await mailService(
+			`${this.to}`,
 			"passwordReset",
 			"Your password reset token (valid for only 10 minutes)"
 		);
@@ -108,8 +88,13 @@ module.exports = class Email {
 			html,
 			//html
 		};
+
 		try {
-			await this.newTransport().sendMail(mailOptions);
+			await mailService(
+				`${this.to}`,
+				"Welcome to our shop",
+				htmlToText.fromString(html)
+			);
 		} catch (error) {
 			console.log(error);
 		}
