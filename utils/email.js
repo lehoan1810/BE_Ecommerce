@@ -76,7 +76,7 @@ module.exports = class Email {
 		);
 		await mailService(
 			`${this.to}`,
-			"passwordReset",
+			"Reset Password",
 			htmlToText.fromString(html)
 		);
 	}
