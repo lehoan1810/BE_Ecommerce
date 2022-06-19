@@ -66,10 +66,18 @@ module.exports = class Email {
 	}
 
 	async sendPasswordReset() {
+		const html = pug.renderFile(
+			`${__dirname}/../views/email/passwordReset.pug`,
+			{
+				name: this.name,
+				url: this.url,
+				subject: "Reset Password",
+			}
+		);
 		await mailService(
 			`${this.to}`,
 			"passwordReset",
-			"Your password reset token (valid for only 10 minutes)"
+			htmlToText.fromString(html)
 		);
 	}
 
