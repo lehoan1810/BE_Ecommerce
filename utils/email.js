@@ -17,12 +17,12 @@ module.exports = class Email {
 			//create transporter for sendgrid
 			return nodemailer.createTransport({
 				//service: 'gmail',
-				host: "smtp.gmail.com",
+				host: process.env.EMAIL_HOST,
 				port: 587,
 				// secure: false, // secure:true for port 465, secure:false for port 587
 				auth: {
-					user: "sandaugiaduythien",
-					pass: "hadesduy13051999",
+					user: process.env.GMAIL_USER,
+					pass: process.env.GMAIL_PASS,
 				},
 			});
 		}

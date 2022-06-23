@@ -85,7 +85,7 @@ router.post("/create_payment_url", function (req, res, next) {
 	var signData = querystring.stringify(vnp_Params, { encode: false });
 	var crypto = require("crypto");
 	var hmac = crypto.createHmac("sha512", secretKey);
-	var signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+	var signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 	vnp_Params["vnp_SecureHash"] = signed;
 	vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
 	console.log(vnpUrl);
@@ -111,7 +111,7 @@ router.get("/vnpay_return", async function (req, res, next) {
 	var signData = querystring.stringify(vnp_Params, { encode: false });
 	var crypto = require("crypto");
 	var hmac = crypto.createHmac("sha512", secretKey);
-	var signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+	var signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 	let drawData = JSON.parse(decodeURIComponent(vnp_Params?.vnp_OrderInfo));
 	Object.keys(drawData).forEach((key) => {
 		console.log(drawData[key]);
@@ -178,7 +178,7 @@ router.get("/vnpay_ipn", function (req, res, next) {
 	var signData = querystring.stringify(vnp_Params, { encode: false });
 	var crypto = require("crypto");
 	var hmac = crypto.createHmac("sha512", secretKey);
-	var signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+	var signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 
 	if (secureHash === signed) {
 		var orderId = vnp_Params["vnp_TxnRef"];

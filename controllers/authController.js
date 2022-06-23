@@ -7,6 +7,7 @@ const AppError = require("./../utils/appError");
 const Email = require("./../utils/email");
 const tokenS = require("../utils/token");
 const Token = require("../models/tokenModel");
+const validator = require("validator");
 // const mailService = require("./helper/mail.helper");
 
 //create token for user signed up or logged in
@@ -44,8 +45,25 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-	//const newUser = await User.create(req.body);
-	//Use this to prevent users try to register as a admin in role
+	const { name, email, password, passwordConfirm } = req.body;
+	if (!email || !password || !name || !passwordConfirm) {
+		return next(new AppError("Vui lòng nhập đầy đủ thông tin đăng ký", 400));
+	}
+	const user = await User.findOne({ email });
+	if (user) {
+		return next(new AppError("Email đã tồn tại", 400));
+	}
+	if (password) {
+		if (+password.length != 8) {
+			return next(new AppError("Mật khẩu cần phải là 8 ký tự", 400));
+		}
+	}
+	if (email) {
+		if (!validator.isEmail(email)) {
+			return next(new AppError("Email không hợp lệ", 400));
+		}
+	}
+
 	try {
 		const newUser = await User.create(req.body);
 		const verifyEmailToken = await tokenS.generateVerifyEmailToken(newUser);
@@ -56,7 +74,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 		createSendToken(newUser, 201, res);
 	} catch (e) {
-		console.log(e);
+		return next(new AppError("Đăng ký thất bại, vui lòng thử lại!"), 400);
 	}
 });
 
