@@ -45,7 +45,11 @@ app.use("/api/v1/statistics", statisticsRouter);
 app.use("/api/v1/vnpay", vnPayRouter);
 
 app.get("/gmail", (req, res) => {
-	mailService("lehoan18102000@gmail.com", "test send mail", "<h1>heloooo</h1>");
+	mailService(
+		"18110111@student.hcmute.edu.vn",
+		"test send mail",
+		"<h1>heloooo</h1>"
+	);
 });
 
 //middleware for not found page

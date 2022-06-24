@@ -54,8 +54,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 		return next(new AppError("Email đã tồn tại", 400));
 	}
 	if (password) {
-		if (+password.length != 8) {
-			return next(new AppError("Mật khẩu cần phải là 8 ký tự", 400));
+		if (+password.length < 8) {
+			return next(new AppError("Mật khẩu không được nhỏ hơn 8", 400));
 		}
 	}
 	if (email) {
@@ -150,6 +150,7 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
 	// 1) get user based on POSTed email
 	const user = await User.findOne({ email: req.body.email });
+	console.log("show user: ", req.body.email);
 
 	if (!user) {
 		return next(new AppError("There is no user with this email", 404));
@@ -159,6 +160,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	const resetToken = user.createResetPasswordToken();
 	//await user.save({ validateBeforeSave: false });
 	await user.save();
+	console.log("resetToken: ", resetToken);
 
 	// 3) send it to user's email
 
@@ -167,6 +169,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 		// 	"host"
 		// )}/api/v1/users/resetPassword/${resetToken}`;
 		const RESETURL = `https://hqh-shop.vercel.app/resetPassword/${resetToken}`;
+		console.log("RESETURL: ", RESETURL);
 
 		await new Email(user, RESETURL).sendPasswordReset();
 
