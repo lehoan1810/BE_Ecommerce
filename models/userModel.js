@@ -95,6 +95,7 @@ const userSchema = new mongoose.Schema(
 						type: Number,
 						required: true,
 					},
+					isWorking: { type: Boolean },
 				},
 			],
 			totalPrice: { type: Number },
@@ -116,6 +117,10 @@ const userSchema = new mongoose.Schema(
 						productName: {
 							type: String,
 						},
+						// productPicture: {
+						// 	type: String,
+						// 	default: "",
+						// },
 						price: {
 							type: Number,
 							required: true,
@@ -256,6 +261,7 @@ userSchema.methods.addToCart = async function (productId, qtyy) {
 				productId: product.id,
 				price: product.price,
 				productPicture: product.productPicture,
+				isWorking: product.isWorking,
 				productName: product.name,
 				qty: qtyy,
 			});

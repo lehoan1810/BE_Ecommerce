@@ -1,6 +1,7 @@
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
+const mailService = require("../helper/mail.helper");
 
 const filterObj = (obj, ...allowedFields) => {
 	const newObj = {};
@@ -28,9 +29,22 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
 //getAllCustomer
 //Get all users
+// userHasBuy:"1" người dùng đã từng mua
+// userHasBuy:"0" người dùng chưa mua
 exports.getAllCustomer = catchAsync(async (req, res, next) => {
+	const { userHasBuy } = req.query;
 	const role = "customer";
-	const users = await User.find({ role });
+	let users = await User.find({ role });
+	if (+userHasBuy === 1) {
+		users = users.filter((item) => {
+			return item.purchasingHistory.length > 0;
+		});
+	}
+	if (+userHasBuy === 0) {
+		users = users.filter((item) => {
+			return item.purchasingHistory.length === 0;
+		});
+	}
 
 	//Send response
 	res.status(200).json({
@@ -153,4 +167,24 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
 		status: "ok",
 		value: user,
 	});
+});
+
+// send email user
+exports.sendEmailUser = catchAsync(async (req, res, next) => {
+	const { email, title, desc } = req.body;
+	if (email === "" || title === "" || desc === "") {
+		return next(
+			new AppError("Vui lòng nhập đầy đủ thông tin trước khi gửi!"),
+			400
+		);
+	}
+	try {
+		await mailService(email, title, desc);
+		res.status(200).json({
+			status: "success",
+			message: "Gửi email thành công",
+		});
+	} catch (e) {
+		return next(new AppError("Gửi không thành công, vui lòng thử lại!"), 400);
+	}
 });

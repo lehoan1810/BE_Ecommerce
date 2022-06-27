@@ -10,11 +10,13 @@ module.exports = async (Model) => {
 	Model.cart.items.forEach(async (item) => {
 		const uptodateProduct = await Product.findById(item.productId);
 
-		//if product in cart exists in shop
+		//Nếu sản phẩm trong card tồn tại trong shop
 		if (uptodateProduct) {
 			let differencePrice = 0;
 			differencePrice += uptodateProduct.price - item.price;
-			item.nameProduct = uptodateProduct.name;
+			item.productName = uptodateProduct.name;
+			item.productPicture = uptodateProduct.productPicture;
+			item.isWorking = uptodateProduct.isWorking;
 			item.price = uptodateProduct.price;
 			Model.cart.totalPrice += differencePrice * item.qty;
 		}

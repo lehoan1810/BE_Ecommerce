@@ -50,6 +50,7 @@ const productSPShema = new mongoose.Schema(
 			ref: "User",
 			required: true,
 		},
+		isWorking: { type: Boolean, default: true },
 	},
 	{ timestamps: true }
 );

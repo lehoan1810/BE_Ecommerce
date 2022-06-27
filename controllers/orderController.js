@@ -2,6 +2,8 @@ const lodash = require("lodash");
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+var moment = require("moment");
+const { query } = require("express");
 
 const sortByDate = (orders, query, role) => {
 	orders = lodash.orderBy(
@@ -75,6 +77,8 @@ exports.getDetailCustomerOrders = catchAsync(async (req, res, next) => {
 exports.getAllOrders = catchAsync(async (req, res, next) => {
 	const users = await User.find();
 
+	const chooseDay = req.query.chooseDay;
+
 	// 1) get all orders
 	let orders = [];
 	users.forEach((user) => {
@@ -92,16 +96,34 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
 	// 2) query: sort by date
 	orders = sortByDate(orders, req.query.sort, req.user.role);
 
+	let startDate = moment()
+		.subtract(+chooseDay, "days")
+		.format("MM/DD/YYYY");
+	let endDates = moment().format("L");
+
 	// 3) query: filer by query in URL (status)
 	if (req.query.status)
 		orders = filterByStatus(orders, req.query.status, req.user.role);
+	if (req.query.search) {
+		const valueSearch = req.query.search;
+		orders = orders.filter((item) => {
+			return Object.values(item.nameUser)
+				.join("")
+				.toLowerCase()
+				.includes(valueSearch.toLowerCase());
+		});
+	}
+	let resultProductData = orders.filter((item) => {
+		const date = moment(item.order.date).format("MM/DD/YYYY");
+		return date >= startDate && date <= endDates;
+	});
 
 	// 4) send response
 	res.status(200).json({
 		status: "success",
-		length: orders.length,
+		length: resultProductData.length,
 		data: {
-			orders,
+			resultProductData,
 		},
 	});
 });

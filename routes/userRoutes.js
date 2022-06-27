@@ -51,6 +51,8 @@ router.delete(
 	userController.deleteCustomer
 );
 
+router.post("/sendEmailUser", userController.sendEmailUser);
+
 // getAllUsers
 router
 	.route("/")

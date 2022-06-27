@@ -16,6 +16,7 @@ exports.createProduct = (req, res) => {
 		productPicture,
 		category,
 		specification,
+		isWorking,
 		createdBy,
 	} = req.body;
 
@@ -27,6 +28,7 @@ exports.createProduct = (req, res) => {
 		productPicture,
 		category,
 		specification,
+		isWorking,
 		// reviews: req.body.reviews,
 		createdBy: req.user._id,
 	});
@@ -41,6 +43,8 @@ exports.createProduct = (req, res) => {
 // getProduct by idBrand
 exports.getProductsById = (req, res) => {
 	const { id } = req.params;
+	const { status } = req.query;
+	console.log(typeof status);
 
 	category.findOne({ _id: id }).exec((error, category) => {
 		if (error) {
@@ -50,6 +54,17 @@ exports.getProductsById = (req, res) => {
 
 		if (category) {
 			Product.find({ category: category._id }).exec((error, products) => {
+				console.log("show:", products);
+				if (status === "true") {
+					products = products.filter((item) => {
+						return item.isWorking === true;
+					});
+				}
+				if (status === "false") {
+					products = products.filter((item) => {
+						return item.isWorking === false;
+					});
+				}
 				res.status(200).json({
 					products,
 				});
@@ -148,6 +163,9 @@ exports.get5ProductsNew = catchAsync(async (req, res, next) => {
 				// .sort({ date: -1 })
 				.limit(5)
 				.exec((error, products) => {
+					products = products.filter((item) => {
+						return item.isWorking === true;
+					});
 					res.status(200).json({
 						lenght: products.length,
 						products,

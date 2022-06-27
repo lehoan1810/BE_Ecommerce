@@ -131,6 +131,7 @@ router.get("/vnpay_return", async function (req, res, next) {
 		// await User.findOneAndUpdate({ _id: vnp_Params?.vnp_OrderInfo?.userId }, {$set: {cart: {items: []}}})
 		// console.log({ infoUser });
 		const cart = infoUser.cart?.items;
+		console.log("show cart: ", cart);
 		if (cart?.length > 0) {
 			const dataCreate = {
 				date: new Date(),

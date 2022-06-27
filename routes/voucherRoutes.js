@@ -6,11 +6,7 @@ const router = express.Router();
 
 router
 	.route("/")
-	.get(
-		authController.protect,
-		authController.restrictTo("assistant", "admin"),
-		voucherController.getAllVouchers
-	)
+	.get(voucherController.getAllVouchers)
 	.post(
 		authController.protect,
 		authController.restrictTo("admin"),

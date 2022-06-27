@@ -43,12 +43,23 @@ exports.addCategory = (req, res) => {
 };
 
 exports.getCategories = (req, res) => {
+	const { haveProduct } = req.query;
 	Category.find({}).exec((error, categories) => {
 		if (error) return res.status(400).json({ error });
 		if (categories) {
-			const categoryList = createCategories(categories);
-			console.log("show categoryList: ", categoryList);
-			// const test=await categoryList.find().populate
+			let categoryList = createCategories(categories);
+			console.log("show categoryList: ", haveProduct);
+			if (+haveProduct === 1) {
+				categoryList = categoryList.filter((item) => {
+					return item.children.length === 0;
+				});
+			}
+			if (+haveProduct === 2) {
+				categoryList = categoryList.filter((item) => {
+					return item.children.length > 0;
+				});
+			}
+
 			return res.status(201).json({ categoryList });
 		}
 	});
