@@ -12,6 +12,13 @@ router
 		authController.restrictTo("admin"),
 		voucherController.createVoucher
 	);
+router
+	.route("/getAllCustomerVoucher")
+	.get(
+		authController.protect,
+		authController.restrictTo("admin"),
+		voucherController.getAllCustomerVoucher
+	);
 
 router
 	.route("/:voucherId")

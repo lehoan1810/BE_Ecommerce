@@ -139,3 +139,65 @@ exports.deleteOne = (Model) =>
 			data: null,
 		});
 	});
+
+// Voucher
+exports.getAllVoucher = (Model) =>
+	catchAsync(async (req, res, next) => {
+		//get length of document in this collection
+		const lengthOrigin = (await Model.find()).length;
+		const { duration, userVouchers } = req.query;
+
+		console.log(duration, userVouchers);
+
+		//filter for nested tours/:tourId/reviews/ (hack)
+		let filter = {};
+		if (req.params.tourId) filter = { tour: req.params.tourId };
+
+		//executing query
+		const features = new APIFeatures(
+			Model.find(filter),
+			req.query,
+			lengthOrigin
+		)
+			.filter()
+			.sort()
+			.limitFields()
+			.paginate();
+		// const docs = await features.mongooseQuery.explain();
+		let docs = await features.mongooseQuery;
+
+		if (duration === "true") {
+			docs = docs.filter((item) => {
+				return item.valid === true;
+			});
+		}
+		if (duration === "false") {
+			docs = docs.filter((item) => {
+				return item.valid === false;
+			});
+		}
+		if (userVouchers === "all") {
+			docs = docs.filter((item) => {
+				return item.userVoucher === "all";
+			});
+		}
+		if (
+			userVouchers !== "all" &&
+			userVouchers !== "" &&
+			userVouchers !== undefined
+		) {
+			docs = docs.filter((item) => {
+				return item.userVoucher !== "all" && item.userVoucher !== "";
+			});
+		}
+		//Send response
+		console.log("show docs: ", docs);
+		res.status(200).json({
+			status: "success",
+			results: docs.length,
+			requestAt: req.requestTime,
+			data: {
+				data: docs,
+			},
+		});
+	});

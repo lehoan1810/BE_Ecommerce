@@ -12,6 +12,17 @@ const voucherSchema = new mongoose.Schema({
 	},
 	valid: {
 		type: Boolean,
+		default: true,
+	},
+	dateStart: {
+		type: String,
+	},
+	dateEnd: {
+		type: String,
+	},
+	userVoucher: {
+		type: String,
+		default: "all",
 	},
 });
 
