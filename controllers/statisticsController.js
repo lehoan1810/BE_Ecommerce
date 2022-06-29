@@ -20,6 +20,7 @@ const getSoldProducts = async (Model) => {
 					soldProducts.push({
 						productId: item.productId,
 						productName: item.productName,
+						price: item.price,
 						qty: item.qty,
 						date: order.date,
 						dateConverted: order.date.toDateString(), //Thu Sep 12 2021
@@ -162,11 +163,17 @@ exports.getProductsSoldInYear = async (req, res, next) => {
 	//get by year
 	soldProducts = getBy("year", soldProducts, req.params.year);
 
+	const totalSoldProduct = soldProducts.reduce(
+		(a, c) => a + c.price * c.qty,
+		0
+	);
+
 	res.status(200).json({
 		status: "success",
 		lenght: soldProducts.length,
 		data: {
 			soldProducts,
+			totalSoldProduct,
 		},
 	});
 };
@@ -193,6 +200,7 @@ exports.getProductsSoldByEachMonthInYear = async (req, res, next) => {
 						productId: item.productId,
 						productName: item.productName,
 						qty: item.qty,
+						price: item.price,
 						date: order.date,
 						dateConverted: order.date.toDateString(), //vd: Thu Sep 12 2021
 					});
@@ -200,34 +208,43 @@ exports.getProductsSoldByEachMonthInYear = async (req, res, next) => {
 			});
 		});
 	});
+	const totalSoldProduct = soldProducts.reduce(
+		(a, c) => a + c.price * c.qty,
+		0
+	);
 
 	//assign month values
 	let months = [
-		{ month: "Tháng 01", value: 0 },
-		{ month: "Tháng 02", value: 0 },
-		{ month: "Tháng 03", value: 0 },
-		{ month: "Tháng 04", value: 0 },
-		{ month: "Tháng 05", value: 0 },
-		{ month: "Tháng 06", value: 0 },
-		{ month: "Tháng 07", value: 0 },
-		{ month: "Tháng 08", value: 0 },
-		{ month: "Tháng 09", value: 0 },
-		{ month: "Tháng 10", value: 0 },
-		{ month: "Tháng 11", value: 0 },
-		{ month: "Tháng 12", value: 0 },
+		{ month: "Tháng 01", value: 0, total: 0 },
+		{ month: "Tháng 02", value: 0, total: 0 },
+		{ month: "Tháng 03", value: 0, total: 0 },
+		{ month: "Tháng 04", value: 0, total: 0 },
+		{ month: "Tháng 05", value: 0, total: 0 },
+		{ month: "Tháng 06", value: 0, total: 0 },
+		{ month: "Tháng 07", value: 0, total: 0 },
+		{ month: "Tháng 08", value: 0, total: 0 },
+		{ month: "Tháng 09", value: 0, total: 0 },
+		{ month: "Tháng 10", value: 0, total: 0 },
+		{ month: "Tháng 11", value: 0, total: 0 },
+		{ month: "Tháng 12", value: 0, total: 0 },
 	];
 
 	////fill sold products to each month in that year
 	months.forEach((mo) => {
+		mo.total = 0;
 		monthInNumber = mo.month.slice(-2) * 1;
 		soldProducts.forEach((el) => {
-			if (monthExtractedToNumber(el) === monthInNumber) mo.value += el.qty;
+			if (monthExtractedToNumber(el) === monthInNumber) {
+				mo.value += el.qty;
+				mo.total += el.qty * el.price;
+			}
 		});
 	});
 
 	res.status(200).json({
 		status: "success",
 		data: {
+			totalSoldProduct,
 			soldProducts,
 			months,
 		},
