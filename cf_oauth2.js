@@ -3,6 +3,6 @@ module.exports = {
 		"117061799709-mkneukuac41isbdg0r56b1c2l391pkct.apps.googleusercontent.com",
 	GOOGLE_MAILER_CLIENT_SECRET: "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",
 	GOOGLE_MAILER_REFRESH_TOKEN:
-		"1//04ZEDMfoVMXvcCgYIARAAGAQSNwF-L9Ir1pmzRRlx2cgOus2ZBgVBE3teW3dh7wYKKsWOBALdiQcKLPuyYfYCyhehv6i1p3Mam9Q",
+		"1//04grZVxHepYalCgYIARAAGAQSNwF-L9Ir980jtmyx397oIStD8dZRPY3yO-pfICr33z1sl7nzTK8I4_ZCXq9tsluqv9Bcan8FVM8",
 	ADMIN_EMAIL_ADDRESS: "hoanhao18102000@gmail.com",
 };
